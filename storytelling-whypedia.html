@@ -1,0 +1,601 @@
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis Tren Industri: Seni dan Ilmu Bercerita (Storytelling)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FEFBF6 0%, #F9F7F1 100%);
+            min-height: 100vh;
+        }
+        
+        .chart-container {
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .text-shadow-custom {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(254, 251, 246, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(204, 88, 3, 0.1);
+        }
+        
+        .section-divider {
+            background: linear-gradient(90deg, transparent, #CC5803, transparent);
+            height: 2px;
+            margin: 3rem auto;
+            max-width: 200px;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #CC5803, #F7934C, #FFC15E);
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+        
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 40;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(204, 88, 3, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background: #CC5803;
+            transform: scale(1.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-nav { display: none; }
+        }
+        
+        .counter {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #CC5803;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #CC5803;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% - 1rem);
+            background: linear-gradient(to bottom, #CC5803, transparent);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Floating Navigation -->
+    <div class="floating-nav">
+        <div class="nav-dot active" data-section="intro" title="Mengapa Cerita Penting"></div>
+        <div class="nav-dot" data-section="landscape" title="Sumber Daya Pembelajaran"></div>
+        <div class="nav-dot" data-section="pillars" title="Pilar Fundamental"></div>
+        <div class="nav-dot" data-section="books" title="Perpustakaan Esensial"></div>
+        <div class="nav-dot" data-section="videos" title="Video Pembelajaran"></div>
+        <div class="nav-dot" data-section="courses" title="Kursus Online"></div>
+        <div class="nav-dot" data-section="journey" title="Peta Jalan"></div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <nav class="nav-sticky hidden md:block bg-white w-full shadow-md">
+        <div class="container mx-auto px-4 py-3 ">
+            <div class="flex justify-center space-x-8">
+                <a href="#intro" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Pendahuluan</a>
+                <a href="#landscape" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Sumber Daya</a>
+                <a href="#pillars" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Pilar Fundamental</a>
+                <a href="#books" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Buku</a>
+                <a href="#videos" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Video</a>
+                <a href="#courses" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Kursus</a>
+                <a href="#journey" class="text-sm font-medium text-gray-600 hover:text-[#CC5803] transition-colors">Peta Jalan</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <header class="text-center mb-16 fade-in">
+            <h1 class="text-4xl md:text-6xl font-black text-[#1F1A02] tracking-tight mb-4 text-shadow-custom">Menguasai Narasi</h1>
+            <p class="text-xl md:text-2xl text-[#CC5803] font-semibold mb-8">Sebuah Infografis Tren Industri tentang Seni dan Ilmu Bercerita</p>
+            <div class="pulse-animation inline-block">
+                <div class="w-16 h-1 bg-gradient-to-r from-[#CC5803] to-[#FFC15E] rounded-full"></div>
+            </div>
+        </header>
+
+        <main>
+            <section id="intro" class="mb-20 fade-in">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Mengapa Cerita Penting Saat Ini?</h2>
+                    <p class="text-lg text-gray-600 mb-8">Dalam lanskap bisnis dan komunikasi modern, kemampuan merangkai cerita yang memikat bukan lagi sekadar keahlian tambahan—ia adalah aset strategis. Cerita mampu membangun koneksi, menumbuhkan kepercayaan, dan menginspirasi tindakan dengan cara yang tidak bisa dilakukan oleh data mentah semata.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="glass-effect rounded-xl shadow-lg p-8 border-t-4 border-[#FFC15E] hover-lift">
+                        <div class="counter" data-target="7">0</div>
+                        <h3 class="text-lg font-semibold text-gray-700">Lebih Banyak Area Otak Aktif</h3>
+                        <p class="text-sm text-gray-500 mt-2">Menurut studi neurosains, cerita mengaktifkan lebih banyak area di otak dibandingkan fakta, menciptakan pemahaman yang lebih dalam dan retensi yang lebih baik.</p>
+                    </div>
+                    <div class="glass-effect rounded-xl shadow-lg p-8 border-t-4 border-[#F7934C] hover-lift">
+                        <div class="counter" data-target="95">0</div>
+                        <h3 class="text-lg font-semibold text-gray-700">Keputusan Pembelian Subsadar (%)</h3>
+                        <p class="text-sm text-gray-500 mt-2">Profesor Harvard Gerald Zaltman menyatakan bahwa 95% keputusan pembelian bersifat emosional. Cerita adalah jembatan paling efektif menuju emosi audiens.</p>
+                    </div>
+                    <div class="glass-effect rounded-xl shadow-lg p-8 border-t-4 border-[#F7B05B] hover-lift">
+                        <div class="counter" data-target="22">0</div>
+                        <h3 class="text-lg font-semibold text-gray-700">Lebih Mudah Diingat (x)</h3>
+                        <p class="text-sm text-gray-500 mt-2">Psikolog Jerome Bruner menemukan bahwa fakta 22 kali lebih mungkin diingat jika disajikan sebagai bagian dari sebuah cerita.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            
+            <section id="landscape" class="mb-20 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1">
+                        <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Lanskap Sumber Daya Pembelajaran</h2>
+                        <p class="text-lg text-gray-600 mb-6">Perjalanan untuk menjadi pencerita ulung didukung oleh ekosistem sumber daya yang beragam. Analisis menunjukkan bahwa pembelajar memiliki akses ke berbagai format, mulai dari bacaan singkat hingga program terstruktur yang mendalam. Kursus Online dan Buku menjadi pilar utama, diikuti oleh Video dan Artikel sebagai pelengkap.</p>
+                        <p class="text-gray-500 text-base">Distribusi ini menyoroti tren menuju pembelajaran mandiri yang fleksibel, di mana individu dapat memilih kedalaman dan format yang paling sesuai dengan gaya dan tujuan belajar mereka.</p>
+                    </div>
+                    <div class="order-1 lg:order-2 glass-effect p-6 rounded-xl shadow-lg hover-lift">
+                        <div class="chart-container h-80 md:h-96">
+                            <canvas id="resourceDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            
+            <section id="pillars" class="mb-20 glass-effect p-8 rounded-xl shadow-lg fade-in">
+                <div class="text-center max-w-4xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Pilar Fundamental dari Pixar</h2>
+                    <p class="text-lg text-gray-600">"22 Aturan Bercerita" dari Pixar menawarkan wawasan mendalam yang relevan secara universal. Dari aturan-aturan tersebut, dua pilar fundamental muncul sebagai kunci narasi yang efektif: keseimbangan antara seni dan kerajinan, serta pentingnya iterasi tanpa henti.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border-l-4 border-[#F7934C] pl-6 hover-lift bg-white/50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold text-[#CC5803] mb-3">Seni vs. Kerajinan</h3>
+                        <p class="text-gray-700">Cerita yang hebat adalah sintesis dari intuisi artistik dan penguasaan teknik. Pencerita harus menemukan suara pribadi dan gairah mereka (seni) sambil secara bersamaan menguasai elemen struktur, ritme, dan revisi (kerajinan).</p>
+                    </div>
+                    <div class="border-l-4 border-[#FFC15E] pl-6 hover-lift bg-white/50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold text-[#CC5803] mb-3">Iterasi & Pembelajaran</h3>
+                        <p class="text-gray-700">Draf pertama hanyalah titik awal. Aturan Pixar sangat menekankan pentingnya revisi, penyelesaian, dan pembelajaran dari kegagalan. Pertumbuhan sejati berasal dari siklus mencoba, gagal, menganalisis, dan memperbaiki.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            
+            <section id="books" class="mb-20 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                     <div class="glass-effect p-6 rounded-xl shadow-lg hover-lift">
+                        <div class="chart-container h-96 md:h-[500px]">
+                            <canvas id="bookBubbleChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Perpustakaan Esensial Pencerita</h2>
+                        <p class="text-lg text-gray-600 mb-6">Literatur tentang <em>storytelling</em> menawarkan spektrum pengetahuan yang luas. Grafik ini memetakan buku-buku paling berpengaruh berdasarkan kategori dan dampaknya. Ukuran gelembung merepresentasikan pengaruh atau popularitas buku tersebut.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start hover-lift p-3 rounded-lg bg-white/30">
+                                <div class="w-4 h-4 rounded-full mt-1.5 mr-3" style="background-color: #F7934C;"></div>
+                                <div><span class="font-bold">Teori & Psikologi:</span> Menggali 'mengapa' sebuah cerita berhasil, dari arketipe universal hingga respons kognitif otak.</div>
+                            </div>
+                             <div class="flex items-start hover-lift p-3 rounded-lg bg-white/30">
+                                <div class="w-4 h-4 rounded-full mt-1.5 mr-3" style="background-color: #FFC15E;"></div>
+                                <div><span class="font-bold">Panduan Praktis:</span> Menawarkan metodologi dan kerangka kerja konkret dari para maestro penulisan skenario dan novel.</div>
+                            </div>
+                            <div class="flex items-start hover-lift p-3 rounded-lg bg-white/30">
+                                <div class="w-4 h-4 rounded-full mt-1.5 mr-3" style="background-color: #CC5803;"></div>
+                                <div><span class="font-bold">Wawasan Industri:</span> Menganalisis pendekatan dari studio-studio terkemuka seperti Pixar.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            
+            <section id="videos" class="mb-20 fade-in">
+                <div class="text-center max-w-4xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Belajar dari Para Maestro Melalui Video</h2>
+                    <p class="text-lg text-gray-600">Platform video telah mendemokratisasi pembelajaran <em>storytelling</em>, memberikan akses ke wawasan para ahli secara global. TED Talks menawarkan inspirasi dan kerangka kerja, sementara kanal YouTube menyediakan analisis mendalam.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="glass-effect p-6 rounded-xl shadow-lg hover-lift">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#1F1A02]">Popularitas TED Talks Pilihan (Ilustrasi Tontonan)</h3>
+                        <div class="chart-container h-96">
+                            <canvas id="tedTalksChart"></canvas>
+                        </div>
+                         <p class="text-xs text-gray-500 mt-4 text-center">Grafik ini menunjukkan bagaimana pembicaraan yang berfokus pada struktur fundamental ("The Clues to a Great Story", "Secret Structure") dan aplikasi praktis ("How Your Brain Responds") cenderung mendapatkan daya tarik yang luas.</p>
+                    </div>
+                    <div class="glass-effect p-6 rounded-xl shadow-lg hover-lift">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#1F1A02]">Kanal YouTube Unggulan</h3>
+                        <div class="space-y-6">
+                            <div class="timeline-item">
+                                <h4 class="font-bold text-lg text-[#CC5803]">Lessons from the Screenplay</h4>
+                                <p class="text-gray-600">Fokus pada dekonstruksi dan analisis skenario film untuk mengungkap teknik penulisan, struktur, dan pengembangan karakter.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4 class="font-bold text-lg text-[#CC5803]">Tyler Mowery</h4>
+                                <p class="text-gray-600">Menyajikan aspek praktis penulisan skenario, seperti cara memulai cerita, mengatasi kebuntuan, dan membangun narasi yang konsisten.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <h4 class="font-bold text-lg text-[#CC5803]">StudioBinder</h4>
+                                <p class="text-gray-600">Menawarkan konten edukatif tentang <em>storytelling</em> visual, sinematografi, dan penyutradaraan, sering disebut "Gelar Master Film Gratis".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section id="courses" class="mb-20 fade-in">
+                 <div class="text-center max-w-4xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Jalur Pembelajaran Terstruktur: Kursus Online</h2>
+                    <p class="text-lg text-gray-600">Bagi yang mencari pendekatan yang lebih mendalam, kursus online menawarkan program komprehensif. Platform terkemuka menyediakan spesialisasi yang beragam, dari aplikasi bisnis hingga penulisan kreatif murni.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div class="glass-effect p-6 rounded-xl shadow-lg hover-lift">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#1F1A02]">Irisan Fokus Kursus Storytelling</h3>
+                        <div class="w-full flex justify-center items-center h-80 relative">
+                            <div class="absolute w-48 h-48 rounded-full bg-[#FFC15E] opacity-70 flex items-center justify-center text-center p-4 hover-lift" style="top: 10%; left: 15%;">
+                                <span class="font-bold text-[#1F1A02]">Kreatif & Sastra</span>
+                            </div>
+                            <div class="absolute w-48 h-48 rounded-full bg-[#F7934C] opacity-70 flex items-center justify-center text-center p-4 hover-lift" style="top: 10%; right: 15%;">
+                                 <span class="font-bold text-[#1F1A02]">Bisnis & Kepemimpinan</span>
+                            </div>
+                            <div class="absolute w-48 h-48 rounded-full bg-[#F7B05B] opacity-70 flex items-center justify-center text-center p-4 hover-lift" style="bottom: 10%; left: 50%; transform: translateX(-50%);">
+                                 <span class="font-bold text-[#1F1A02]">Presentasi & Publik</span>
+                            </div>
+                            <div class="absolute text-center z-10">
+                                <span class="font-bold text-lg text-[#CC5803] pulse-animation">STORYTELLING</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4 text-center">Diagram ini mengilustrasikan bagaimana banyak kursus menggabungkan keterampilan dari ranah kreatif, bisnis, dan presentasi publik untuk menciptakan pencerita yang holistik.</p>
+                    </div>
+
+                    <div class="glass-effect rounded-xl shadow-lg overflow-hidden hover-lift">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-600">
+                                <thead class="text-xs text-gray-700 uppercase bg-[#CC5803]/10">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 font-bold">Platform</th>
+                                        <th scope="col" class="px-6 py-3 font-bold">Fokus Utama</th>
+                                        <th scope="col" class="px-6 py-3 font-bold">Tingkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white/50 border-b hover:bg-white/70 transition-colors">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Coursera</th>
+                                        <td class="px-6 py-4">Akademis, Bisnis, Penulisan Kreatif</td>
+                                        <td class="px-6 py-4">Pemula - Campuran</td>
+                                    </tr>
+                                    <tr class="bg-white/50 border-b hover:bg-white/70 transition-colors">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Udemy</th>
+                                        <td class="px-6 py-4">Praktis, Berbasis Keterampilan, Beragam</td>
+                                        <td class="px-6 py-4">Semua Level</td>
+                                    </tr>
+                                    <tr class="bg-white/50 border-b hover:bg-white/70 transition-colors">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">edX</th>
+                                        <td class="px-6 py-4">Struktur Universitas, Perubahan Sosial</td>
+                                        <td class="px-6 py-4">Mandiri</td>
+                                    </tr>
+                                    <tr class="bg-white/50 hover:bg-white/70 transition-colors">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">MasterClass</th>
+                                        <td class="px-6 py-4">Filosofi & Proses dari Para Legenda</td>
+                                        <td class="px-6 py-4">Semua Level</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+            
+            <section id="journey" class="mb-20 fade-in">
+                <div class="text-center max-w-4xl mx-auto mb-10">
+                    <h2 class="text-3xl font-bold text-[#1F1A02] mb-4">Peta Jalan Perjalanan Bercerita Anda</h2>
+                    <p class="text-lg text-gray-600">Menjadi pencerita ulung adalah sebuah proses. Berdasarkan analisis sumber daya yang tersedia, berikut adalah alur belajar yang direkomendasikan untuk membangun keahlian Anda secara progresif dan komprehensif.</p>
+                </div>
+                
+                <div class="relative flex flex-col items-center md:flex-row md:justify-center md:space-x-8 space-y-8 md:space-y-0">
+                    <div class="flex-shrink-0 w-48 text-center z-10">
+                        <div class="p-6 glass-effect rounded-xl shadow-lg border-2 border-[#FFC15E] hover-lift">
+                            <div class="text-3xl mb-2 pulse-animation">①</div>
+                            <h3 class="font-bold text-gray-800">Mulai dengan Artikel</h3>
+                            <p class="text-xs text-gray-500">Pahami konsep dasar dan aplikasi bisnis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gray-300 to-transparent -translate-y-1/2 z-0"></div>
+                    <div class="md:hidden absolute top-0 bottom-0 left-1/2 w-0.5 bg-gradient-to-b from-transparent via-gray-300 to-transparent -translate-x-1/2 z-0"></div>
+
+                    <div class="flex-shrink-0 w-48 text-center z-10">
+                        <div class="p-6 glass-effect rounded-xl shadow-lg border-2 border-[#F7B05B] hover-lift">
+                            <div class="text-3xl mb-2 pulse-animation">②</div>
+                            <h3 class="font-bold text-gray-800">Baca Buku Fundamental</h3>
+                            <p class="text-xs text-gray-500">Bangun fondasi teori dan struktur.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 w-48 text-center z-10">
+                        <div class="p-6 glass-effect rounded-xl shadow-lg border-2 border-[#F7934C] hover-lift">
+                            <div class="text-3xl mb-2 pulse-animation">③</div>
+                            <h3 class="font-bold text-gray-800">Tonton Video Inspiratif</h3>
+                            <p class="text-xs text-gray-500">Dapatkan wawasan & analisis dari para ahli.</p>
+                        </div>
+                    </div>
+                    
+                      <div class="flex-shrink-0 w-48 text-center z-10">
+                        <div class="p-6 glass-effect rounded-xl shadow-lg border-2 border-[#F7934C] hover-lift">
+                            <div class="text-3xl mb-2 pulse-animation">④</div>
+                            <h3 class="font-bold text-gray-800">Ambil Kursus Mendalam</h3>
+                            <p class="text-xs text-gray-500">Latih keterampilan dan dapatkan umpan balik.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+         <footer class="text-center mt-16 border-t pt-8">
+            <p class="text-gray-500">Infografis dibuat berdasarkan analisis komprehensif sumber daya pembelajaran storytelling terbaik.</p>
+            <p class="text-sm text-gray-400 mt-2">Juni 2025</p>
+        </footer>
+    </div>
+    <script>
+        // Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+        });
+
+        // Floating Navigation
+        const navDots = document.querySelectorAll('.nav-dot');
+        navDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const sectionId = dot.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update active nav dot on scroll
+        window.addEventListener('scroll', () => {
+            let currentSection = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('data-section') === currentSection) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Counter Animation
+        document.querySelectorAll('.counter').forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / 200; // Adjust speed here
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+
+        // Resource Distribution Chart
+        const resourceDistributionCtx = document.getElementById('resourceDistributionChart').getContext('2d');
+        const resourceDistributionChart = new Chart(resourceDistributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Kursus Online', 'Buku', 'Video', 'Artikel'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: ['#CC5803', '#F7934C', '#FFC15E', '#F7B05B'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#1F1A02',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Book Bubble Chart
+        const bookBubbleCtx = document.getElementById('bookBubbleChart').getContext('2d');
+        const bookBubbleChart = new Chart(bookBubbleCtx, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: 'Teori & Psikologi',
+                        data: [{ x: 1, y: 8, r: 15 }],
+                        backgroundColor: '#F7934C'
+                    },
+                    {
+                        label: 'Panduan Praktis',
+                        data: [{ x: 2, y: 6, r: 20 }],
+                        backgroundColor: '#FFC15E'
+                    },
+                    {
+                        label: 'Wawasan Industri',
+                        data: [{ x: 3, y: 4, r: 25 }],
+                        backgroundColor: '#CC5803'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                },
+                plugins: {
+                    legend: { display: true }
+                }
+            }
+        });
+
+        // TED Talks Chart
+        const tedTalksCtx = document.getElementById('tedTalksChart').getContext('2d');
+        const tedTalksChart = new Chart(tedTalksCtx, {
+            type: 'bar',
+            data: {
+                labels: ['The Clues to a Great Story', 'Secret Structure of Great Talks', 'How Your Brain Responds to Stories'],
+                datasets: [{
+                    label: 'Jumlah Tontonan (juta)',
+                    data: [15, 20, 25],
+                    backgroundColor: ['#F7934C', '#FFC15E', '#CC5803'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#1F1A02' }
+                    },
+                    x: {
+                        ticks: { color: '#1F1A02' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Course Focus Chart
+        const courseFocusCtx = document.getElementById('courseFocusChart').getContext('2d');
+        const courseFocusChart = new Chart(courseFocusCtx, {
+            type: 'venn',
+            data: {
+                datasets: [{
+                    label: 'Kursus Storytelling',
+                    data: [
+                        { x: 0, y: 0, r: 30, label: 'Kreatif & Sastra' },
+                        { x: 50, y: 0, r: 30, label: 'Bisnis & Kepemimpinan' },
+                        { x: 25, y: 50, r: 30, label: 'Presentasi & Publik' }
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
